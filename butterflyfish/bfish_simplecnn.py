@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[18]:
 
 
 from keras.models import Sequential
@@ -9,7 +9,14 @@ from keras.layers import Convolution2D, MaxPooling2D
 from keras.layers import Activation, Dropout, Flatten, Dense
 from keras.preprocessing.image import ImageDataGenerator
 from keras.callbacks import EarlyStopping
+from keras.preprocessing.image import load_img, img_to_array
+
+
+# In[37]:
+
+
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 # In[2]:
@@ -22,21 +29,22 @@ epochs = 100
 
 
 # データをつくる
-train_datagen = ImageDataGenerator(rescale=1.0/255, rotation_range=90, width_shift_range=0.2, height_shift_range=0.2)
+train_datagen = ImageDataGenerator(rescale=1.0/255, rotation_range=90, width_shift_range=0.2, height_shift_range=0.2,
+                                  horizontal_flip=True)
 test_datagen = ImageDataGenerator(rescale=1.0/255)
 
 
 # In[4]:
 
 
-train_generator = train_datagen.flow_from_directory('../data/butterflyfish/train', target_size=(150,150), 
+train_generator = train_datagen.flow_from_directory('../data/butterflyfish/train', target_size=(150,150),
                                                     batch_size=32, class_mode='binary')
 
 
 # In[5]:
 
 
-validation_generator = test_datagen.flow_from_directory('../data/butterflyfish/validation', target_size=(150,150), 
+validation_generator = test_datagen.flow_from_directory('../data/butterflyfish/validation', target_size=(150,150),
                                                         batch_size=32, class_mode='binary')
 
 
@@ -56,6 +64,12 @@ model.add(Flatten())
 model.add(Dense(64, activation='relu'))
 model.add(Dropout(0.5))
 model.add(Dense(1, activation='sigmoid'))
+
+
+# In[42]:
+
+
+print(train_generator.class_indices)
 
 
 # In[7]:
@@ -85,4 +99,24 @@ plt.xlabel('Epochs')
 plt.ylabel('Accuracy')
 plt.legend()
 plt.show()
+
+
+# In[38]:
+
+
+img = load_img("../data/originaldata/test.jpg", target_size=(150, 150))
+plt.imshow(img)
+
+
+# In[40]:
+
+
+array = img_to_array(img)
+x = np.expand_dims(array, axis=0)
+
+
+# In[41]:
+
+
+model.predict(x)
 
