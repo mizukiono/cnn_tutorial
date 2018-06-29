@@ -10,10 +10,10 @@ from keras.layers import Activation, Dropout, Flatten, Dense
 from keras.preprocessing.image import ImageDataGenerator
 
 
-# In[2]:
+# In[10]:
 
 
-epochs = 20
+epochs = 100
 
 
 # In[3]:
