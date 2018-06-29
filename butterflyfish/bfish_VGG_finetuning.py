@@ -25,7 +25,7 @@ import matplotlib.pyplot as plt
 # TensorFlowのGPUメモリ使用量の制限
 from keras.backend.tensorflow_backend import set_session
 config = tf.ConfigProto()
-config.gpu_options.per_process_gpu_memory_fraction = 0.5
+config.gpu_options.per_process_gpu_memory_fraction = 0.8
 set_session(tf.Session(config=config))
 
 
@@ -128,13 +128,13 @@ validation_generator = test_datagen.flow_from_directory(val_data_dir, target_siz
 print(train_generator.class_indices)
 
 
-# In[ ]:
+# In[16]:
 
 
 history = model.fit_generator(train_generator, epochs=epochs, verbose=1, validation_data=validation_generator)
 
 
-# In[ ]:
+# In[17]:
 
 
 plt.plot(range(1, epochs+1), history.history['acc'], label="training")
