@@ -104,13 +104,13 @@ def dataframe_maker(page_nums):
     return df
 
 
-# In[ ]:
+# In[8]:
 
 
 df = dataframe_maker(page_nums)
 
 
-# In[ ]:
+# In[9]:
 
 
 df.count()
