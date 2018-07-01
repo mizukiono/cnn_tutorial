@@ -32,8 +32,8 @@ set_session(tf.Session(config=config))
 # In[3]:
 
 
-img_width = 150
-img_height = 150
+img_width = 200
+img_height = 200
 train_data_dir = "../data/butterflyfish/train"
 val_data_dir = "../data/butterflyfish/validation/"
 
@@ -45,7 +45,7 @@ epochs = 100
 # In[4]:
 
 
-input_tensor = Input(shape=(150, 150, 3))
+input_tensor = Input(shape=(200, 200, 3))
 vgg16_model = VGG16(include_top=False, weights='imagenet', input_tensor=input_tensor)
 
 
@@ -116,9 +116,9 @@ test_datagen = ImageDataGenerator(rescale=1.0/255)
 # In[14]:
 
 
-train_generator = train_datagen.flow_from_directory(train_data_dir, target_size=(150,150),
+train_generator = train_datagen.flow_from_directory(train_data_dir, target_size=(200, 200),
                                                     batch_size=32, class_mode='binary')
-validation_generator = test_datagen.flow_from_directory(val_data_dir, target_size=(150,150),
+validation_generator = test_datagen.flow_from_directory(val_data_dir, target_size=(200, 200),
                                                     batch_size=32, class_mode='binary')
 
 

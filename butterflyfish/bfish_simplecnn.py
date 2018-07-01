@@ -37,14 +37,14 @@ test_datagen = ImageDataGenerator(rescale=1.0/255)
 # In[5]:
 
 
-train_generator = train_datagen.flow_from_directory('../data/butterflyfish/train', target_size=(150,150),
+train_generator = train_datagen.flow_from_directory('../data/butterflyfish/train', target_size=(200,200),
                                                     batch_size=32, class_mode='binary')
 
 
 # In[6]:
 
 
-validation_generator = test_datagen.flow_from_directory('../data/butterflyfish/validation', target_size=(150,150),
+validation_generator = test_datagen.flow_from_directory('../data/butterflyfish/validation', target_size=(200,200),
                                                         batch_size=32, class_mode='binary')
 
 
@@ -53,10 +53,11 @@ validation_generator = test_datagen.flow_from_directory('../data/butterflyfish/v
 
 # モデルをつくる
 model = Sequential()
-model.add(Convolution2D(32, (3, 3), activation='relu', input_shape=(150, 150, 3)))
+model.add(Convolution2D(32, (3, 3), activation='relu', input_shape=(200, 200, 3)))
 model.add(MaxPooling2D(pool_size=(2,2)))
 model.add(Convolution2D(32, (3, 3), activation='relu'))
 model.add(MaxPooling2D(pool_size=(2,2)))
+model.add(Dropout(0.25))
 model.add(Convolution2D(64, (3, 3), activation='relu'))
 model.add(MaxPooling2D(pool_size=(2,2)))
 
@@ -101,14 +102,14 @@ plt.legend()
 plt.show()
 
 
-# In[27]:
+# In[15]:
 
 
-img = load_img("../data/originaldata/test.jpg", target_size=(150, 150))
+img = load_img("../data/originaldata/test.jpg", target_size=(200, 200))
 plt.imshow(img)
 
 
-# In[31]:
+# In[16]:
 
 
 array = img_to_array(img)
@@ -122,14 +123,14 @@ else:
     print('チョウチョウウオです')
 
 
-# In[35]:
+# In[17]:
 
 
-img = load_img("../data/originaldata/test2.jpg", target_size=(150, 150))
+img = load_img("../data/originaldata/test2.jpg", target_size=(200, 200))
 plt.imshow(img)
 
 
-# In[37]:
+# In[18]:
 
 
 array = img_to_array(img)
@@ -143,14 +144,14 @@ else:
     print('チョウチョウウオです')
 
 
-# In[38]:
+# In[19]:
 
 
-img = load_img("../data/originaldata/test3.jpg", target_size=(150, 150))
+img = load_img("../data/originaldata/test3.jpg", target_size=(200, 200))
 plt.imshow(img)
 
 
-# In[39]:
+# In[20]:
 
 
 array = img_to_array(img)
