@@ -23,7 +23,7 @@ startnum = 1
 
 
 # アクセスURL
-url = 'http://fishpix.kahaku.go.jp/fishimage/search?START=%d&JPN_FAMILY=&FAMILY=Chaetodontidae&JPN_NAME=&SPECIES=&LOCALITY=&FISH_Y=&FISH_M=&FISH_D=&PERSON=&PHOTO_ID=&JPN_FAMILY_OPT=1&FAMILY_OPT=0&JPN_NAME_OPT=1&SPECIES_OPT=1&LOCALITY_OPT=1&PERSON_OPT=1&PHOTO_ID_OPT=1'%startnum
+url = 'http://fishpix.kahaku.go.jp/fishimage/search?START=%d&JPN_FAMILY=&FAMILY=&JPN_NAME=&SPECIES=&LOCALITY=&FISH_Y=&FISH_M=&FISH_D=&PERSON=&PHOTO_ID=&JPN_FAMILY_OPT=0&FAMILY_OPT=0&JPN_NAME_OPT=0&SPECIES_OPT=0&LOCALITY_OPT=1&PERSON_OPT=1&PHOTO_ID_OPT=1'%startnum
 
 
 # In[4]:
@@ -90,7 +90,7 @@ def dataframe_maker(page_nums):
     df = pd.DataFrame(columns = ['name', 'nameEng', 'caption', 'URL'])
     
     for n in page_nums:
-        url = 'http://fishpix.kahaku.go.jp/fishimage/search?START=%d&JPN_FAMILY=&FAMILY=Chaetodontidae&JPN_NAME=&SPECIES=&LOCALITY=&FISH_Y=&FISH_M=&FISH_D=&PERSON=&PHOTO_ID=&JPN_FAMILY_OPT=1&FAMILY_OPT=0&JPN_NAME_OPT=1&SPECIES_OPT=1&LOCALITY_OPT=1&PERSON_OPT=1&PHOTO_ID_OPT=1'%n
+        url = 'http://fishpix.kahaku.go.jp/fishimage/search?START=%d&JPN_FAMILY=&FAMILY=&JPN_NAME=&SPECIES=&LOCALITY=&FISH_Y=&FISH_M=&FISH_D=&PERSON=&PHOTO_ID=&JPN_FAMILY_OPT=0&FAMILY_OPT=0&JPN_NAME_OPT=0&SPECIES_OPT=0&LOCALITY_OPT=1&PERSON_OPT=1&PHOTO_ID_OPT=1'%n
         names, namesHel, caps, img_url = information_getter(url)
         df_batch = pd.DataFrame([names, namesHel, caps, img_url],                                index=['name', 'nameEng', 'caption', 'URL']).transpose()
 #         display(df_batch.head())
@@ -103,7 +103,7 @@ def dataframe_maker(page_nums):
     return df
 
 
-# In[9]:
+# In[ ]:
 
 
 df = dataframe_maker(page_nums)
@@ -125,108 +125,4 @@ df['name'].value_counts()
 
 
 df.to_csv("butterfly.csv")
-
-
-# In[20]:
-
-
-names, namesHel, caps, img_url = information_getter(url)
-df_batch = pd.DataFrame([names, namesHel, caps, img_url], index=['name', 'nameEng', 'caption', 'URL']).transpose()
-
-
-# In[22]:
-
-
-df = pd.concat([df, df_batch])
-df
-
-
-# In[10]:
-
-
-url = 'http://fishpix.kahaku.go.jp/fishimage/search?START=2781&JPN_FAMILY=&FAMILY=Chaetodontidae&JPN_NAME=&SPECIES=&LOCALITY=&FISH_Y=&FISH_M=&FISH_D=&PERSON=&PHOTO_ID=&JPN_FAMILY_OPT=1&FAMILY_OPT=0&JPN_NAME_OPT=1&SPECIES_OPT=1&LOCALITY_OPT=1&PERSON_OPT=1&PHOTO_ID_OPT=1'
-
-
-# In[11]:
-
-
-response = urllib.request.urlopen(url)
-
-
-# In[12]:
-
-
-soup = BeautifulSoup(response, "html.parser")
-
-
-# In[15]:
-
-
-result = soup.findAll('span', class_= 'result')
-names = []
-for x in result:
-    names.append(x.text)
-print(names)
-len(names)
-
-
-# In[14]:
-
-
-result_ = soup.findAll('span', class_= 'resultHelvetica')
-namesHel = []
-for x in result_:
-    namesHel.append(x.text)
-print(namesHel)
-
-
-# In[10]:
-
-
-soup.findAll('span', class_= 'captionTimes')
-
-
-# In[17]:
-
-
-caption = soup.findAll('span', class_= 'captionTimes')
-display(caption)
-caps = []
-for x in caption:
-    cap = x.find('a',href=re.compile('^detail'))
-    if cap != None:
-        caps.append(cap.text)
-print(caps)
-
-
-# In[98]:
-
-
-text = soup.find('span', class_= 'captionTimes').text
-num = text.split("件")[0].split()[0]
-print(num)
-
-
-# In[22]:
-
-
-imgsoup = soup.findAll("img")
-display(imgsoup)
-
-
-# In[26]:
-
-
-img_path = []
-
-for x in imgsoup:
-    if x['height'] == "130":
-        img_path.append(x['src'])
-
-
-# In[27]:
-
-
-print(len(img_path))
-print(img_path)
 
